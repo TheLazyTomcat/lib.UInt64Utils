@@ -12,12 +12,23 @@
     Utility functions for 64bit unsigned integers. Meant mainly for compilers
     that do not have full native support for this type (eg. Delphi 7).
 
-  ©František Milt 2018-12-24
-
   Version 1.0
 
+  Last changed 2018-12-24
+
+  ©2018-2019 František Milt
+
+  Contacts:
+    František Milt: frantisek.milt@gmail.com
+
+  Support:
+    If you find this code useful, please consider supporting its author(s) by
+    making a small donation using the following link(s):
+
+      https://www.paypal.me/FMilt  
+
   Dependencies:
-    AuxTypes - github.com/ncs-sniper/Lib.AuxTypes
+    AuxTypes - github.com/TheLazyTomcat/Lib.AuxTypes
 
 ===============================================================================}
 unit UInt64Utils;
