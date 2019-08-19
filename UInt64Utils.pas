@@ -12,9 +12,9 @@
     Utility functions for 64bit unsigned integers. Meant mainly for compilers
     that do not have full native support for this type (eg. Delphi 7).
 
-  Version 1.0
+  Version 1.0 (2018-12-24)
 
-  Last changed 2018-12-24
+  Last change 2019-08-19
 
   ©2018-2019 František Milt
 
@@ -25,7 +25,12 @@
     If you find this code useful, please consider supporting its author(s) by
     making a small donation using the following link(s):
 
-      https://www.paypal.me/FMilt  
+      https://www.paypal.me/FMilt
+
+  Changelog:
+    For detailed changelog and history please refer to this git repository:
+
+      github.com/TheLazyTomcat/Lib.UInt64Utils
 
   Dependencies:
     AuxTypes - github.com/TheLazyTomcat/Lib.AuxTypes
