@@ -14,7 +14,7 @@
 
   Version 1.0 (2018-12-24)
 
-  Last change 2019-08-19
+  Last change 2019-09-20
 
   ©2018-2019 František Milt
 
@@ -45,7 +45,13 @@ unit UInt64Utils;
 interface
 
 uses
+  SysUtils,
   AuxTypes;
+
+type
+  EUI64UException = class(Exception);
+
+  EUI64UConvertError = class(EUI64UException);
 
 type
   UInt64Rec = packed record
@@ -77,9 +83,6 @@ Function CompareUInt64(A,B: UInt64): Integer;
 Function SameUInt64(A,B: UInt64): Boolean;
 
 implementation
-
-uses
-  SysUtils;
 
 const
   UInt64NumTable: array[0..63] of String = (
@@ -197,13 +200,13 @@ If Length(Str) > 0 then
 If Length(Str) < Length(UInt64NumTable[0]) then
   TempStr := StringOfChar('0',Length(UInt64NumTable[0]) - Length(Str)) + Str
 else If Length(Str) > Length(UInt64NumTable[0]) then
-  raise EConvertError.CreateFmt('StrToUInt64: "%s" is not a valid integer string.',[Str])
+  raise EUI64UConvertError.CreateFmt('StrToUInt64: "%s" is not a valid integer string.',[Str])
 else
   TempStr := Str;
 // check if string contains only numbers  
 For i := 1 to Length(TempStr) do
   If not(Ord(TempStr[i]) in [Ord('0')..Ord('9')]) then
-    raise EConvertError.CreateFmt('StrToUInt64: "%s" is not a valid integer string.',[Str]);
+    raise EUI64UConvertError.CreateFmt('StrToUInt64: "%s" is not a valid integer string.',[Str]);
 // do the calculations
 For i := 63 downto 0 do
   If SubtractValStr(TempStr,UInt64NumTable[i],ResStr) >= 0 then
@@ -212,7 +215,7 @@ For i := 63 downto 0 do
         Result := Result or (UInt64(1) shl i);
         TempStr := ResStr;
       end
-    else raise EConvertError.CreateFmt('StrToUInt64: "%s" is not a valid integer string.',[Str]);
+    else raise EUI64UConvertError.CreateFmt('StrToUInt64: "%s" is not a valid integer string.',[Str]);
 end;
 
 //------------------------------------------------------------------------------
@@ -262,11 +265,11 @@ If Length(Str) > 0 then
               'a'..'f': Result := Result or UInt64(Ord(Str[i]) - Ord('a') + 10);
               'A'..'F': Result := Result or UInt64(Ord(Str[i]) - Ord('A') + 10);
             else
-              raise EConvertError.CreateFmt('HexToUInt64: "%s" is not a valid hexadecimal string.',[Str]);
+              raise EUI64UConvertError.CreateFmt('HexToUInt64: "%s" is not a valid hexadecimal string.',[Str]);
             end;
           end;
       end
-    else raise EConvertError.CreateFmt('HexToUInt64: "%s" is not a valid hexadecimal string.',[Str]);
+    else raise EUI64UConvertError.CreateFmt('HexToUInt64: "%s" is not a valid hexadecimal string.',[Str]);
   end;
 end;
 
