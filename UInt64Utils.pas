@@ -12,9 +12,9 @@
     Utility functions for 64bit unsigned integers. Meant mainly for compilers
     that do not have full native support for this type (eg. Delphi 7).
 
-  Version 1.0 (2018-12-24)
+  Version 1.0.1 (2019-09-22)
 
-  Last change 2019-09-20
+  Last change 2019-09-22
 
   ©2018-2019 František Milt
 
@@ -147,12 +147,12 @@ var
     For ii := 1 to Length(S1) do
       If Ord(S1[ii]) < Ord(S2[ii]) then
         begin
-          Result := 1;
+          Result := -1;
           Break{For ii};
         end
       else If Ord(S1[ii]) > Ord(S2[ii]) then
         begin
-          Result := -1;
+          Result := +1;
           Break{For ii};
         end      
   end;
@@ -210,7 +210,7 @@ For i := 1 to Length(TempStr) do
 // do the calculations
 For i := 63 downto 0 do
   If SubtractValStr(TempStr,UInt64NumTable[i],ResStr) >= 0 then
-    If CompareValStr(ResStr,UInt64NumTable[i]) > 0 then
+    If CompareValStr(ResStr,UInt64NumTable[i]) < 0 then
       begin
         Result := Result or (UInt64(1) shl i);
         TempStr := ResStr;
@@ -298,16 +298,16 @@ end;
 Function CompareUInt64(A,B: UInt64): Integer;
 begin
 If UInt64Rec(A).Hi > UInt64Rec(B).Hi then
-  Result := -1
+  Result := +1
 else If UInt64Rec(A).Hi < UInt64Rec(B).Hi then
-  Result := 1
+  Result := -1
 else
   begin
-    // higher 32bit are the same, compare lower 32 bits
+    // higher 32bits are the same, compare lower 32 bits
     If UInt64Rec(A).Lo > UInt64Rec(B).Lo then
-      Result := -1
+      Result := +1
     else If UInt64Rec(A).Lo < UInt64Rec(B).Lo then
-      Result := 1
+      Result := -1
     else
       Result := 0;
   end;
