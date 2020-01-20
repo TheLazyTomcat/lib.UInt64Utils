@@ -14,9 +14,9 @@
 
   Version 1.0.1 (2019-09-22)
 
-  Last change 2019-09-22
+  Last change 2020-01-20
 
-  ©2018-2019 František Milt
+  ©2018-2020 František Milt
 
   Contacts:
     František Milt: frantisek.milt@gmail.com
@@ -75,7 +75,7 @@ Function TryStrToUInt64(const Str: String; out Value: UInt64): Boolean;
 Function StrToUInt64Def(const Str: String; Default: UInt64): UInt64;
 
 {
-  Returns positive number if A is less than B, negative number when A is larger
+  Returns negative number if A is less than B, positive number when A is larger
   than B, zero when they equals.
 }
 Function CompareUInt64(A,B: UInt64): Integer;
