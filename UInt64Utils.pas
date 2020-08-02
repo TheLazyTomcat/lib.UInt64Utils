@@ -14,7 +14,7 @@
 
   Version 1.0.1 (2019-09-22)
 
-  Last change 2020-01-20
+  Last change 2020-08-02
 
   ©2018-2020 František Milt
 
@@ -39,8 +39,9 @@
 unit UInt64Utils;
 
 {$IFDEF FPC}
-  {$MODE ObjFPC}{$H+}
+  {$MODE ObjFPC}
 {$ENDIF}
+{$H+}
 
 interface
 
