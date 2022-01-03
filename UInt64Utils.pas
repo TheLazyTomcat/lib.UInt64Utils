@@ -12,11 +12,11 @@
     Utility functions for 64bit unsigned integers. Meant mainly for compilers
     that do not have full native support for this type (eg. Delphi 7).
 
-  Version 1.0.1 (2019-09-22)
+  Version 1.0.2 (2022-01-03)
 
-  Last change 2020-08-02
+  Last change 2022-01-03
 
-  ©2018-2020 František Milt
+  ©2018-2022 František Milt
 
   Contacts:
     František Milt: frantisek.milt@gmail.com
@@ -63,6 +63,8 @@ type
       3: (Bytes: array [0..7] of UInt8);
   end;
 
+Function UInt64Get(Hi,Lo: UInt32): UInt64;
+
 Function UInt64ToStr(Value: UInt64): String;
 
 Function StrToUInt64(const Str: String): UInt64;
@@ -84,6 +86,14 @@ Function CompareUInt64(A,B: UInt64): Integer;
 Function SameUInt64(A,B: UInt64): Boolean;
 
 implementation
+
+Function UInt64Get(Hi,Lo: UInt32): UInt64;
+begin
+UInt64Rec(Result).Hi := Hi;
+UInt64Rec(Result).Lo := Lo;
+end;
+
+//------------------------------------------------------------------------------
 
 const
   UInt64NumTable: array[0..63] of String = (
