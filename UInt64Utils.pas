@@ -12,11 +12,11 @@
     Utility functions for 64bit unsigned integers. Meant mainly for compilers
     that do not have full native support for this type (eg. Delphi 7).
 
-  Version 1.0.3 (2023-02-21)
+  Version 1.0.4 (2024-02-10)
 
-  Last change 2023-12-19
+  Last change 2024-02-10
 
-  ©2018-2023 František Milt
+  ©2018-2024 František Milt
 
   Contacts:
     František Milt: frantisek.milt@gmail.com
@@ -40,6 +40,14 @@ unit UInt64Utils;
 
 {$IFDEF FPC}
   {$MODE ObjFPC}
+  {$INLINE ON}
+  {$DEFINE CanInline}
+{$ELSE}
+  {$IF CompilerVersion >= 17 then}  // Delphi 2005+
+    {$DEFINE CanInline}
+  {$ELSE}
+    {$UNDEF CanInline}
+  {$IFEND}
 {$ENDIF}
 {$H+}
 
@@ -54,6 +62,7 @@ type
 
   EUI64UConvertError = class(EUI64UException);
 
+//------------------------------------------------------------------------------  
 type
   UInt64Rec = packed record
     case Integer of
@@ -63,7 +72,15 @@ type
       3: (Bytes: array [0..7] of UInt8);
   end;
 
+//------------------------------------------------------------------------------
+
+Function UInt64Low: UInt64;{$IFDEF CanInline} inline;{$ENDIF}
+
+Function UInt64High: UInt64;{$IFDEF CanInline} inline;{$ENDIF}
+
 Function UInt64Get(Hi,Lo: UInt32): UInt64;
+
+//------------------------------------------------------------------------------
 
 Function UInt64ToStr(Value: UInt64): String;
 
@@ -77,6 +94,8 @@ Function TryStrToUInt64(const Str: String; out Value: UInt64): Boolean;
 
 Function StrToUInt64Def(const Str: String; Default: UInt64): UInt64;
 
+//------------------------------------------------------------------------------
+
 {
   Returns negative number if A is less than B, positive number when A is larger
   than B, zero when they equals.
@@ -85,7 +104,31 @@ Function CompareUInt64(A,B: UInt64): Integer;
 
 Function SameUInt64(A,B: UInt64): Boolean;
 
+Function IsEqual(A,B: UInt64): Boolean;{$IFDEF CanInline} inline;{$ENDIF}
+
+Function IsLess(A,B: UInt64): Boolean;{$IFDEF CanInline} inline;{$ENDIF}
+
+Function IsLessOrEqual(A,B: UInt64): Boolean;{$IFDEF CanInline} inline;{$ENDIF}
+
+Function IsGreater(A,B: UInt64): Boolean;{$IFDEF CanInline} inline;{$ENDIF}
+
+Function IsGreaterOrEqual(A,B: UInt64): Boolean;{$IFDEF CanInline} inline;{$ENDIF}
+
 implementation
+
+Function UInt64Low: UInt64;
+begin
+Result := UInt64(0);
+end;
+
+//------------------------------------------------------------------------------
+
+Function UInt64High: UInt64;
+begin
+Result := UInt64($FFFFFFFFFFFFFFFF);
+end;
+
+//------------------------------------------------------------------------------
 
 Function UInt64Get(Hi,Lo: UInt32): UInt64;
 begin
@@ -344,4 +387,40 @@ Result := (UInt64Rec(A).Hi = UInt64Rec(B).Hi) and
           (UInt64Rec(A).Lo = UInt64Rec(B).Lo);
 end;
 
+//------------------------------------------------------------------------------
+
+Function IsEqual(A,B: UInt64): Boolean;
+begin
+Result := SameUInt64(A,B);
+end;
+
+//------------------------------------------------------------------------------
+
+Function IsLess(A,B: UInt64): Boolean;
+begin
+Result := CompareUInt64(A,B) < 0;
+end;
+
+//------------------------------------------------------------------------------
+
+Function IsLessOrEqual(A,B: UInt64): Boolean;
+begin
+Result := CompareUInt64(A,B) <= 0;
+end;
+
+//------------------------------------------------------------------------------
+
+Function IsGreater(A,B: UInt64): Boolean;
+begin
+Result := CompareUInt64(A,B) > 0;
+end;
+
+//------------------------------------------------------------------------------
+
+Function IsGreaterOrEqual(A,B: UInt64): Boolean;
+begin
+Result := CompareUInt64(A,B) >= 0;
+end;
+
 end.
+
